@@ -1,0 +1,36 @@
+services:
+  mongo:
+    build: ./database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-secret123}
+      MONGO_DB: ${MONGO_DB:-shopdb}
+      MONGO_APP_USER: ${MONGO_APP_USER:-shopuser}
+      MONGO_APP_PASSWORD: ${MONGO_APP_PASSWORD:-shoppass123}
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend/src:/app/src
+    command: node --watch src/server.js
+    environment:
+      MONGO_URI: mongodb://${MONGO_APP_USER:-shopuser}:${MONGO_APP_PASSWORD:-shoppass123}@mongo:27017/${MONGO_DB:-shopdb}?authSource=${MONGO_DB:-shopdb}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-before-deployment}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@shop.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin12345}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

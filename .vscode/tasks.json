@@ -1,0 +1,334 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Install ecommerce frontend dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"frontend",
+				"install"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Install ecommerce backend dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"backend",
+				"install"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Run ecommerce backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"backend",
+				"start"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Run ecommerce frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"--prefix",
+				"frontend",
+				"run",
+				"dev",
+				"--",
+				"--host",
+				"0.0.0.0"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check Docker availability",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"--version"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check Docker containers",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"ps",
+				"-a"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check local MongoDB availability",
+			"type": "shell",
+			"command": "mongod",
+			"args": [
+				"--version"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check Docker context",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"context",
+				"ls"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Start Docker Desktop",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"desktop",
+				"start"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Verify Docker Engine",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"info",
+				"--format",
+				"{{.ServerVersion}}"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check Docker Engine status",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"ps",
+				"-a"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Build and start ecommerce containers",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"--build",
+				"-d"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Verify ecommerce containers",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"ps"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Inspect all ecommerce containers",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"ps",
+				"-a"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check ecommerce API health",
+			"type": "shell",
+			"command": "curl.exe",
+			"args": [
+				"-sS",
+				"http://localhost:5000/api/health"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check ecommerce frontend response",
+			"type": "shell",
+			"command": "curl.exe",
+			"args": [
+				"-sS",
+				"-I",
+				"http://localhost:3000"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Start ecommerce services",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Find process using API port",
+			"type": "shell",
+			"command": "Get-NetTCPConnection",
+			"args": [
+				"-LocalPort",
+				"5000",
+				"-State",
+				"Listen"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Identify API port process",
+			"type": "shell",
+			"command": "Get-Process",
+			"args": [
+				"-Id",
+				"6420"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Find process owning API port",
+			"type": "shell",
+			"command": "Get-NetTCPConnection -LocalPort 5000 -State Listen | Select-Object -ExpandProperty OwningProcess",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Inspect port 5000 owner process",
+			"type": "shell",
+			"command": "Get-Process",
+			"args": [
+				"-Id",
+				"26220"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Inspect port 5000 command line",
+			"type": "shell",
+			"command": "Get-CimInstance Win32_Process -Filter 'ProcessId=26220' | Select-Object ProcessId,CommandLine",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Stop previous local backend",
+			"type": "shell",
+			"command": "Stop-Process",
+			"args": [
+				"-Id",
+				"26220"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Start ecommerce containers",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Verify container health",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"ps"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Test backend health endpoint",
+			"type": "shell",
+			"command": "Invoke-RestMethod -Uri http://localhost:5000/api/health | ConvertTo-Json -Compress",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Probe storefront HTTP status",
+			"type": "shell",
+			"command": "(Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing).StatusCode",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Verify product API",
+			"type": "shell",
+			"command": "Invoke-RestMethod -Uri http://localhost:5000/api/products | ConvertTo-Json -Depth 3 -Compress",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Validate simplified compose file",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"config",
+				"-q"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Apply simplified compose config",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"up",
+				"-d",
+				"--build"
+			],
+			"isBackground": false
+		},
+		{
+			"label": "Check API and database connection",
+			"type": "shell",
+			"command": "Invoke-RestMethod -Uri http://localhost:5000/api/health | ConvertTo-Json -Compress",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Check storefront status",
+			"type": "shell",
+			"command": "(Invoke-WebRequest -Uri http://localhost:3000 -UseBasicParsing).StatusCode",
+			"args": [],
+			"isBackground": false
+		},
+		{
+			"label": "Check services after compose edit",
+			"type": "shell",
+			"command": "docker",
+			"args": [
+				"compose",
+				"ps"
+			],
+			"isBackground": false
+		}
+	]
+}
